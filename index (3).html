@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AIxGRC — AI Governance, Risk & Compliance</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --navy: #0a1628;
+      --navy-mid: #112240;
+      --navy-light: #1e3a5f;
+      --gold: #c9a84c;
+      --gold-light: #e8c97a;
+      --slate: #8892a4;
+      --light: #f4f6f9;
+      --white: #ffffff;
+      --text: #2d3748;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 5%;
+      background: rgba(10, 22, 40, 0.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+    .nav-logo span { color: var(--gold); }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    .nav-cta {
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold) !important;
+      padding: 0.5rem 1.25rem;
+      border-radius: 2px;
+      transition: background 0.2s, color 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--gold) !important; color: var(--navy) !important; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      background: var(--navy);
+      display: flex; align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 0 5%;
+    }
+
+    .hero-grid-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(201,168,76,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,168,76,0.06) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(30,58,95,0.8) 0%, transparent 70%);
+      top: -100px; right: -100px;
+      border-radius: 50%;
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 760px;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block; width: 32px; height: 1px;
+      background: var(--gold);
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+    }
+    h1 em {
+      font-style: normal;
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      font-size: 1.125rem;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.65);
+      max-width: 560px;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+    }
+
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--navy);
+      padding: 0.9rem 2rem;
+      border-radius: 2px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+    .btn-outline {
+      border: 1px solid rgba(255,255,255,0.3);
+      color: rgba(255,255,255,0.8);
+      padding: 0.9rem 2rem;
+      border-radius: 2px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+      display: inline-block;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    .hero-stats {
+      position: absolute; bottom: 3rem; right: 5%;
+      display: flex; gap: 3rem;
+      z-index: 2;
+    }
+    .stat { text-align: center; }
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--gold);
+      display: block;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-top: 0.2rem;
+    }
+
+    /* ── SECTION SHARED ── */
+    section { padding: 6rem 5%; }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .section-label::before {
+      content: ''; display: block;
+      width: 24px; height: 1px; background: var(--gold);
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--navy);
+      margin-bottom: 1rem;
+    }
+
+    .section-body {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #5a6a7e;
+      max-width: 600px;
+      font-weight: 300;
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      background: var(--light);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .about-visual {
+      position: relative;
+    }
+
+    .about-card {
+      background: var(--navy);
+      border-radius: 4px;
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    }
+
+    .about-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+    }
+
+    .pillars {
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+
+    .pillar {
+      display: flex; align-items: flex-start; gap: 1rem;
+      padding: 1rem;
+      background: rgba(255,255,255,0.04);
+      border-radius: 3px;
+      border-left: 2px solid var(--gold);
+    }
+
+    .pillar-icon {
+      font-size: 1.2rem;
+      margin-top: 0.1rem;
+    }
+
+    .pillar-text strong {
+      display: block;
+      color: var(--white);
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+    .pillar-text span {
+      font-size: 0.82rem;
+      color: var(--slate);
+      line-height: 1.5;
+    }
+
+    .floating-badge {
+      position: absolute;
+      bottom: -1.5rem; right: -1.5rem;
+      background: var(--gold);
+      color: var(--navy);
+      padding: 1.2rem 1.5rem;
+      border-radius: 3px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-align: center;
+      box-shadow: 0 8px 30px rgba(201,168,76,0.3);
+    }
+    .floating-badge span {
+      display: block;
+      font-size: 1.8rem;
+      font-family: 'Playfair Display', serif;
+      letter-spacing: 0;
+    }
+
+    /* ── SERVICES ── */
+    #services { background: var(--white); }
+
+    .services-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 4rem;
+      flex-wrap: wrap; gap: 2rem;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .service-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      padding: 2.5rem;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(10,22,40,0.08);
+    }
+    .service-card::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      transform: scaleX(0);
+      transition: transform 0.3s;
+      transform-origin: left;
+    }
+    .service-card:hover::after { transform: scaleX(1); }
+
+    .service-icon {
+      width: 48px; height: 48px;
+      background: rgba(201,168,76,0.1);
+      border-radius: 3px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .service-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 0.75rem;
+    }
+
+    .service-desc {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: #5a6a7e;
+    }
+
+    .service-tag {
+      display: inline-block;
+      margin-top: 1.5rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    /* ── INSIGHTS / BLOG ── */
+    #insights { background: var(--light); }
+
+    .insights-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem;
+    }
+
+    .insights-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .insight-card {
+      background: var(--white);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    .insight-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(10,22,40,0.1);
+    }
+
+    .insight-thumb {
+      height: 200px;
+      background: var(--navy-mid);
+      position: relative;
+      display: flex; align-items: flex-end;
+      padding: 1.5rem;
+      overflow: hidden;
+    }
+
+    .insight-card:first-child .insight-thumb { height: 260px; }
+
+    .insight-thumb-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(201,168,76,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,168,76,0.05) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+    .insight-thumb::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10,22,40,0.9), transparent 60%);
+    }
+
+    .insight-category {
+      position: relative; z-index: 1;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: rgba(201,168,76,0.15);
+      padding: 0.3rem 0.75rem;
+      border-radius: 20px;
+      border: 1px solid rgba(201,168,76,0.3);
+    }
+
+    .insight-body { padding: 1.5rem; }
+
+    .insight-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1.4;
+      margin-bottom: 0.5rem;
+    }
+
+    .insight-card:first-child .insight-title { font-size: 1.3rem; }
+
+    .insight-meta {
+      font-size: 0.78rem;
+      color: var(--slate);
+    }
+
+    /* ── FRAMEWORK ── */
+    #framework {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    #framework .section-title { color: var(--white); }
+
+    .framework-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 4rem;
+    }
+
+    .fw-step {
+      background: var(--navy);
+      padding: 2.5rem 2rem;
+      transition: background 0.3s;
+    }
+    .fw-step:hover { background: var(--navy-light); }
+
+    .fw-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      color: rgba(201,168,76,0.2);
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .fw-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 0.75rem;
+    }
+
+    .fw-desc {
+      font-size: 0.85rem;
+      line-height: 1.65;
+      color: var(--slate);
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--white);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .contact-form {
+      display: flex; flex-direction: column; gap: 1.25rem;
+    }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+
+    .form-group label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #64748b;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      border: 1px solid #e2e8f0;
+      border-radius: 2px;
+      padding: 0.8rem 1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text);
+      background: var(--white);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--gold);
+    }
+
+    .form-group textarea { resize: vertical; min-height: 120px; }
+
+    .contact-info { }
+
+    .contact-links {
+      display: flex; flex-direction: column; gap: 1.25rem;
+      margin-top: 3rem;
+    }
+
+    .contact-link {
+      display: flex; align-items: center; gap: 1rem;
+      text-decoration: none;
+      color: var(--text);
+      padding: 1rem 1.25rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 3px;
+      transition: border-color 0.2s, color 0.2s;
+      font-size: 0.9rem;
+    }
+    .contact-link:hover { border-color: var(--gold); color: var(--gold); }
+    .contact-link-icon { font-size: 1.2rem; }
+    .contact-link strong { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--slate); margin-bottom: 0.1rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      padding: 3rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+      border-top: 1px solid rgba(201,168,76,0.15);
+    }
+
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: var(--white);
+    }
+    .footer-logo span { color: var(--gold); }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: var(--slate);
+    }
+
+    .footer-links { display: flex; gap: 2rem; }
+    .footer-links a {
+      font-size: 0.8rem;
+      color: var(--slate);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ── FRAMEWORK CARDS ── */
+    .fw-card {
+      background: var(--white);
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      padding: 1.75rem 2rem;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .fw-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(10,22,40,0.07);
+    }
+    .fw-card-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 0.6rem;
+    }
+    .fw-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.6rem;
+    }
+    .fw-card-desc {
+      font-size: 0.85rem;
+      line-height: 1.65;
+      color: #5a6a7e;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-eyebrow { animation: fadeUp 0.6s ease both; }
+    h1 { animation: fadeUp 0.7s 0.1s ease both; }
+    .hero-sub { animation: fadeUp 0.7s 0.2s ease both; }
+    .hero-actions { animation: fadeUp 0.7s 0.3s ease both; }
+    .hero-stats { animation: fadeUp 0.7s 0.4s ease both; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      #about, #contact { grid-template-columns: 1fr; gap: 3rem; }
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .insights-grid { grid-template-columns: 1fr; }
+      .framework-grid { grid-template-columns: 1fr 1fr; }
+      .hero-stats { position: static; margin-top: 3rem; flex-wrap: wrap; gap: 2rem; }
+      .nav-links { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .framework-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">AI<span>x</span>GRC</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#insights">Insights</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#frameworks">Frameworks</a></li>
+    <li><a href="#contact" class="nav-cta">Connect</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">AI Governance, Risk & Compliance</div>
+    <h1>Hi, I'm <em>Olivia.</em><br>I write, research,<br>and build in AI GRC.</h1>
+    <p class="hero-sub">
+      Cybersecurity professional researching and building at the intersection of artificial intelligence, governance, risk, and compliance. Founder of AIxGRC and graduate student at Georgetown University studying AI governance and cybersecurity policy.
+    </p>
+    <div class="hero-actions">
+      <a href="#portfolio" class="btn-primary">View My Work</a>
+      <a href="#insights" class="btn-outline">Read Insights</a>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-number">NIST</span>
+      <div class="stat-label">AI RMF Aligned</div>
+    </div>
+    <div class="stat">
+      <span class="stat-number">ISO</span>
+      <div class="stat-label">42001 Ready</div>
+    </div>
+    <div class="stat">
+      <span class="stat-number">EU</span>
+      <div class="stat-label">AI Act Compliant</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div>
+    <div class="section-label">About Me</div>
+    <h2 class="section-title">Olivia Athelus</h2>
+    <p class="section-body">
+      Olivia Athelus is a cybersecurity professional focused on artificial intelligence governance, risk management, and responsible technology oversight.
+    </p>
+    <br>
+    <p class="section-body">
+      She created AIxGRC as a platform to document research, frameworks, and projects exploring how organizations can responsibly deploy AI while aligning with global governance standards such as the NIST AI Risk Management Framework, ISO/IEC 42001, and emerging regulatory policies.
+    </p>
+    <br>
+    <p class="section-body">
+      Olivia is currently pursuing graduate studies at <strong>Georgetown University</strong>, where her research focuses on AI governance, cybersecurity policy, and regulatory risk management. Her long-term work explores how AI governance intersects with ethics, public policy, and high-impact sectors such as healthcare.
+    </p>
+    <br>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:0.5rem;">
+      <a href="https://www.linkedin.com/in/oliviaathelus" target="_blank" class="btn-primary" style="font-size:0.82rem;padding:0.7rem 1.4rem;">LinkedIn</a>
+      <a href="https://github.com/aixgrc" target="_blank" class="btn-outline" style="font-size:0.82rem;padding:0.7rem 1.4rem;">GitHub</a>
+    </div>
+  </div>
+
+  <div class="about-visual">
+    <div class="about-card">
+      <div class="about-card-title">Areas of Focus</div>
+      <div class="pillars">
+        <div class="pillar">
+          <div class="pillar-text">
+            <strong>AI Risk Management</strong>
+            <span>NIST AI RMF, ISO 42001, and lifecycle risk analysis.</span>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-text">
+            <strong>AI Regulation & Policy</strong>
+            <span>EU AI Act, U.S. executive orders, and global compliance frameworks.</span>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-text">
+            <strong>Security Standards</strong>
+            <span>PCI DSS, SOC 2, ISO 27001 applied to AI systems.</span>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-text">
+            <strong>Research & Insights</strong>
+            <span>Published newsletters on real-world AI governance case studies.</span>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-text">
+            <strong>AI Governance in Healthcare</strong>
+            <span>Exploring how AI risk management, patient safety, and regulatory oversight intersect in clinical and health technology systems.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="floating-badge">
+      <span>GU</span>
+      Georgetown<br>University
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="services-header">
+    <div>
+      <div class="section-label">My Work</div>
+      <h2 class="section-title">Portfolio</h2>
+    </div>
+    <p style="max-width:380px;color:#5a6a7e;font-size:0.95rem;line-height:1.7;">
+      Projects, research, and whitepapers built through academic coursework, independent study, and the AIxGRC brand.
+    </p>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-title">EU AI Act Compliance Analysis</div>
+      <p class="service-desc">A deep-dive whitepaper analyzing how the EU AI Act's high-risk classification applies to biometric retail AI — using Sephora as a case study.</p>
+      <div class="service-tag">Whitepaper &nbsp;·&nbsp; EU AI Act</div>
+    </div>
+
+    <div class="service-card">
+      <div class="service-title">Financial AI & Security Standards</div>
+      <p class="service-desc">Research mapping PCI DSS, SOC 2, and ISO 27001 requirements onto AI systems in financial services — credit scoring, fraud detection, and risk modeling.</p>
+      <div class="service-tag">Research &nbsp;·&nbsp; FinTech GRC</div>
+    </div>
+
+    <div class="service-card">
+      <div class="service-title">Ethical AI Design for Vulnerable Users</div>
+      <p class="service-desc">Analysis of emotional AI chatbot case studies — examining where ethical design failed and what responsible safeguards look like for at-risk populations.</p>
+      <div class="service-tag">Research &nbsp;·&nbsp; AI Ethics</div>
+    </div>
+
+    <div class="service-card">
+      <div class="service-title">AI GRC Framework Mapping</div>
+      <p class="service-desc">Comparative mapping of NIST AI RMF, ISO 42001, and the EU AI Act — identifying overlaps, gaps, and practical implementation priorities for organizations.</p>
+      <div class="service-tag">Coming Soon &nbsp;·&nbsp; Frameworks</div>
+    </div>
+
+    <div class="service-card">
+      <div class="service-title">AI Risk Assessment Template</div>
+      <p class="service-desc">A practitioner-ready AI risk assessment template built on NIST AI RMF principles, designed for teams beginning their AI governance journey.</p>
+      <div class="service-tag">Coming Soon &nbsp;·&nbsp; Tools</div>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon"></div>
+      <div class="service-title">Georgetown Capstone Project</div>
+      <p class="service-desc">Graduate-level research project in progress. Details to be shared upon completion. Topics span AI policy, risk governance, and regulatory compliance.</p>
+      <div class="service-tag">→ In Progress &nbsp;·&nbsp; Academic</div>
+    </div>
+  </div>
+</section>
+
+<!-- INSIGHTS -->
+<section id="insights">
+  <div class="insights-header">
+    <div>
+      <div class="section-label">Research & Insights</div>
+      <h2 class="section-title">Insights</h2>
+    </div>
+    <a href="https://www.linkedin.com/in/oliviaathelus" target="_blank" class="btn-primary" style="font-size:0.8rem;padding:0.7rem 1.5rem;">View All on LinkedIn</a>
+  </div>
+
+  <div class="insights-grid">
+    <a href="https://www.linkedin.com/pulse/sephora-ai-eus-new-rules-olivia-athelus-m-s-xq1ue" target="_blank" class="insight-card" style="text-decoration:none;">
+      <div class="insight-thumb">
+        <div class="insight-thumb-bg"></div>
+        <span class="insight-category">EU AI Act</span>
+      </div>
+      <div class="insight-body">
+        <div class="insight-title">Sephora, AI, and the EU's New Rules</div>
+        <p style="font-size:0.85rem;color:#5a6a7e;line-height:1.6;margin-top:0.5rem;">How Sephora's virtual try-on and biometric AI tools come under the EU AI Act's high-risk classification — and what responsible retail AI compliance looks like in practice.</p>
+        <div class="insight-meta" style="margin-top:0.75rem;">LinkedIn Newsletter &nbsp;·&nbsp; EU AI Act &nbsp;·&nbsp; Retail AI</div>
+      </div>
+    </a>
+
+    <a href="https://www.linkedin.com/pulse/pci-dss-soc-2-iso-27001-how-financial-ai-can-align-athelus-m-sc--5keme" target="_blank" class="insight-card" style="text-decoration:none;">
+      <div class="insight-thumb">
+        <div class="insight-thumb-bg"></div>
+        <span class="insight-category">Financial AI</span>
+      </div>
+      <div class="insight-body">
+        <div class="insight-title">PCI DSS, SOC 2 & ISO 27001 — How Financial AI Can Align With Security Standards</div>
+        <p style="font-size:0.82rem;color:#5a6a7e;line-height:1.6;margin-top:0.5rem;">A practical GRC guide to translating PCI DSS, SOC 2, and ISO 27001 for AI systems in credit, fraud detection, and financial risk modeling.</p>
+        <div class="insight-meta" style="margin-top:0.75rem;">LinkedIn Newsletter &nbsp;·&nbsp; FinTech &nbsp;·&nbsp; Security Standards</div>
+      </div>
+    </a>
+
+    <a href="https://www.linkedin.com/pulse/simulating-ai-pipelines-gates-feedback-batch-olivia-athelus-m-s-sqj7e" target="_blank" class="insight-card" style="text-decoration:none;">
+      <div class="insight-thumb">
+        <div class="insight-thumb-bg"></div>
+        <span class="insight-category">AI Engineering</span>
+      </div>
+      <div class="insight-body">
+        <div class="insight-title">Simulating AI Pipelines with Gates, Feedback, and Batch Processing</div>
+        <p style="font-size:0.82rem;color:#5a6a7e;line-height:1.6;margin-top:0.5rem;">A technical exploration of how AI pipelines can be simulated and stress-tested using gates, feedback loops, and batch processing patterns.</p>
+        <div class="insight-meta" style="margin-top:0.75rem;">LinkedIn Newsletter &nbsp;·&nbsp; AI Engineering &nbsp;·&nbsp; Technical</div>
+      </div>
+    </a>
+  </div>
+
+  <div style="margin-top:1.5rem;">
+    <a href="https://www.linkedin.com/pulse/ai-enabled-suicide-when-compassion-meets-code-olivia-athelus-m-s-xqive" target="_blank" class="insight-card" style="text-decoration:none;display:grid;grid-template-columns:260px 1fr;overflow:hidden;">
+      <div class="insight-thumb" style="height:100%;min-height:160px;">
+        <div class="insight-thumb-bg"></div>
+        <span class="insight-category">AI Ethics</span>
+      </div>
+      <div class="insight-body" style="display:flex;flex-direction:column;justify-content:center;">
+        <div class="insight-title">AI-Enabled Suicide: When Compassion Meets Code</div>
+        <p style="font-size:0.85rem;color:#5a6a7e;line-height:1.6;margin-top:0.5rem;">Examining the tragic case of Adam Raine alongside Replika's life-saving protocols — and what the contrast reveals about ethical AI design for vulnerable users.</p>
+        <div class="insight-meta" style="margin-top:0.75rem;">LinkedIn Newsletter &nbsp;·&nbsp; AI Safety &nbsp;·&nbsp; Mental Health</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div style="max-width:600px;">
+    <div class="section-label" style="color:var(--gold);">What's Next</div>
+    <h2 class="section-title">AIxGRC Roadmap</h2>
+    <p class="section-body" style="color:var(--slate);">
+      A look at what I'm building next — ongoing projects, planned research, and future directions for the AIxGRC brand.
+    </p>
+  </div>
+
+  <div class="framework-grid">
+    <div class="fw-step">
+      <div class="fw-number">01</div>
+      <div class="fw-title">Whitepapers</div>
+      <p class="fw-desc">Publishing in-depth whitepapers on AI governance topics — starting with EU AI Act compliance and financial AI security alignment.</p>
+    </div>
+    <div class="fw-step">
+      <div class="fw-number">02</div>
+      <div class="fw-title">GRC Toolkits</div>
+      <p class="fw-desc">Building open, practitioner-ready templates — AI risk assessment tools, policy frameworks, and audit checklists grounded in NIST and ISO standards.</p>
+    </div>
+    <div class="fw-step">
+      <div class="fw-number">03</div>
+      <div class="fw-title">Case Studies</div>
+      <p class="fw-desc">Real-world AI governance analyses across industries — retail, finance, healthcare, and the public sector — applying regulatory frameworks to actual deployments.</p>
+    </div>
+    <div class="fw-step">
+      <div class="fw-number">04</div>
+      <div class="fw-title">Georgetown Research</div>
+      <p class="fw-desc">Sharing academic research and capstone work from Georgetown University as it develops — connecting theory to practice in AI policy and risk governance.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FRAMEWORKS -->
+<section id="frameworks" style="background:var(--light);">
+  <div style="max-width:700px;margin-bottom:3.5rem;">
+    <div class="section-label">What I Study</div>
+    <h2 class="section-title">Governance Frameworks</h2>
+    <p class="section-body">The regulatory and risk management frameworks that form the foundation of my research and applied work in AI governance.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;">
+
+    <div class="fw-card">
+      <div class="fw-card-tag">Risk Management</div>
+      <div class="fw-card-title">NIST AI RMF</div>
+      <p class="fw-card-desc">The National Institute of Standards and Technology AI Risk Management Framework — a voluntary, flexible framework for managing risk throughout the AI lifecycle.</p>
+    </div>
+
+    <div class="fw-card">
+      <div class="fw-card-tag">Management System</div>
+      <div class="fw-card-title">ISO/IEC 42001</div>
+      <p class="fw-card-desc">The international standard for AI management systems — providing requirements and guidance for responsible development, deployment, and governance of AI.</p>
+    </div>
+
+    <div class="fw-card">
+      <div class="fw-card-tag">Regulation</div>
+      <div class="fw-card-title">EU AI Act</div>
+      <p class="fw-card-desc">The European Union's landmark AI regulation applying a risk-based classification system to AI systems, with binding obligations for high-risk deployments.</p>
+    </div>
+
+    <div class="fw-card">
+      <div class="fw-card-tag">Information Security</div>
+      <div class="fw-card-title">ISO/IEC 27001</div>
+      <p class="fw-card-desc">The globally recognized standard for information security management systems — foundational for securing the data and infrastructure underpinning AI systems.</p>
+    </div>
+
+    <div class="fw-card">
+      <div class="fw-card-tag">Trust &amp; Cloud</div>
+      <div class="fw-card-title">SOC 2</div>
+      <p class="fw-card-desc">The AICPA trust services framework evaluating security, availability, processing integrity, confidentiality, and privacy — critical for AI-powered SaaS platforms.</p>
+    </div>
+
+    <div class="fw-card">
+      <div class="fw-card-tag">Payment Security</div>
+      <div class="fw-card-title">PCI DSS</div>
+      <p class="fw-card-desc">Payment Card Industry Data Security Standards — applicable wherever AI systems process, transmit, or store cardholder data in financial services contexts.</p>
+    </div>
+
+    <div class="fw-card" style="border-color:rgba(201,168,76,0.4);background:rgba(201,168,76,0.04);">
+      <div class="fw-card-tag" style="color:var(--gold);">Emerging</div>
+      <div class="fw-card-title">AI Regulation — Global</div>
+      <p class="fw-card-desc">Monitoring emerging AI regulations across the U.S., UK, Canada, and beyond — including executive orders, sector-specific rules, and proposed legislative frameworks.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div>
+    <div class="section-label">Get In Touch</div>
+    <h2 class="section-title">Let's Connect</h2>
+    <p class="section-body">
+      I'm always open to conversations about AI governance, research collaborations, speaking opportunities, or just connecting with others in the GRC space. Reach out — I'd love to hear from you.
+    </p>
+
+    <div class="contact-links">
+      <a href="/cdn-cgi/l/email-protection#84f0e1e5e9aae5edfce3f6e7c4e3e9e5ede8aae7ebe9" class="contact-link">
+        <span class="contact-link-icon"></span>
+        <div>
+          <strong>Email</strong>
+          <span class="__cf_email__" data-cfemail="34405155591a555d4c534657745359555d581a575b59">[email&#160;protected]</span>
+        </div>
+      </a>
+      <a href="https://www.linkedin.com/in/oliviaathelus" target="_blank" class="contact-link">
+        <span class="contact-link-icon"></span>
+        <div>
+          <strong>LinkedIn</strong>
+          linkedin.com/in/oliviaathelus
+        </div>
+      </a>
+      <a href="https://github.com/aixgrc" target="_blank" class="contact-link">
+        <span class="contact-link-icon"></span>
+        <div>
+          <strong>GitHub</strong>
+          github.com/aixgrc
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div>
+    <div class="contact-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" placeholder="Jane"/>
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" placeholder="Smith"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" placeholder="jane@company.com"/>
+      </div>
+      <div class="form-group">
+        <label>Organization</label>
+        <input type="text" placeholder="Company or University"/>
+      </div>
+      <div class="form-group">
+        <label>Reason for Reaching Out</label>
+        <select>
+          <option value="">Select one...</option>
+          <option>Research Collaboration</option>
+          <option>Speaking / Podcast Opportunity</option>
+          <option>Networking / GRC Community</option>
+          <option>Recruiting / Opportunities</option>
+          <option>General Inquiry</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea placeholder="Tell me a bit about yourself and what you'd like to discuss..."></textarea>
+      </div>
+      <button class="btn-primary" style="border:none;cursor:pointer;text-align:center;">Send Message</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">AI<span>x</span>GRC</div>
+  <div class="footer-copy">© 2025 Olivia Athelus · AIxGRC. All rights reserved.</div>
+  <div class="footer-links">
+    <a href="#about">About</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="#insights">Insights</a>
+    <a href="#frameworks">Frameworks</a>
+    <a href="#contact">Connect</a>
+  </div>
+</footer>
+
+</body>
+</html>
