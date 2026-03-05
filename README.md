@@ -2,8 +2,10 @@
 
 > Personal brand and portfolio of a Georgetown University graduate student exploring the intersection of Artificial Intelligence and GRC (Governance, Risk & Compliance).
 
-🌐 **Live Site:** [https://yourusername.github.io](https://yourusername.github.io)  
-🔗 **LinkedIn:** [linkedin.com/in/yourprofile](https://linkedin.com/in/yourprofile)
+🌐 **Live Site:** (https://aixgrc.github.io)  
+🔗 **LinkedIn:** www.linkedin.com/in/oliviaathelus
+
+
 
 ---
 
